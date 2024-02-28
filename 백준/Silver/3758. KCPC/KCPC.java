@@ -63,7 +63,7 @@ public class Main {
                 if(problems[id][problem] < score){
                     problems[id][problem] = score;
                 }
-                problems[id][0] ++;
+                problems[id][0] ++; // 제출 횟수
                 map.put(id, new Team(id, log, 0));
             }
             for(int id = 1; id < n+1; id++){
