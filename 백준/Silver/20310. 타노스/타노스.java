@@ -1,64 +1,14 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
 
 
     static String S ;
-    static List<String> list = new ArrayList<>();
-    static void sol(String [] str, int oneCount, int zeroCount){
-        if(oneCount == 1 || zeroCount == 1){
-            return;
-        }
-
-        List<Integer> one = new ArrayList<>();
-        List<Integer> zero = new ArrayList<>();
 
 
-        for(int i = 0; i < oneCount+zeroCount; i++){
-            int zeroIndex = oneCount + zeroCount - 1 - i;
-
-            if(zero.size() == zeroCount/2){
-                break;
-            }
-
-            if(str[zeroIndex].equals("0")){
-                zero.add(zeroIndex);
-            }
-
-
-
-        }
-        for(int i = 0; i < oneCount+zeroCount; i++){
-            int oneIndex = i;
-
-            if(one.size() == oneCount/2){
-                break;
-            }
-
-
-            if(str[oneIndex].equals("1")){
-                one.add(oneIndex);
-            }
-        }
-        if(zero.size() == zeroCount/2 && one.size() == oneCount/2){
-            String newS = "";
-            for(int j = 0; j < S.length(); j++){
-                if(!one.contains(j) && !zero.contains(j)){
-                    newS += S.charAt(j);
-                }
-            }
-            S = newS;
-            list.add(S);
-            sol(S.split(""), oneCount/2, zeroCount/2);
-
-        }
-    }
 
     public static void main(String[] args) throws IOException {
 
@@ -77,8 +27,54 @@ public class Main {
                 zeroCount ++;
             }
         }
-        sol(S.split(""), oneCount, zeroCount);
-        Collections.sort(list);
-        System.out.println(list.get(0));
+        oneCount = oneCount/2;
+        zeroCount = zeroCount/2;
+        String newS = S;
+        for(int i = 0; i < newS.length(); i++){
+            if(newS.charAt(i) == '1'){
+                newS = newS.replaceFirst("1", "2");
+                oneCount --;
+            }
+            if(oneCount == 0) break;
+        }
+        Stack<Character> stack = new Stack<>();
+        for(int i = 0; i < newS.length(); i++){
+            char s = newS.charAt(i);
+            if(s != '2'){
+                stack.push(s);
+            }
+        }
+        String flipS = "";
+        while(!stack.isEmpty()){
+            flipS += stack.pop();
+        }
+        for(int i = flipS.length() -1; i >= 0; i--){
+            if(flipS.charAt(i) == '0'){
+                flipS = flipS.replaceFirst("0", "2");
+                zeroCount --;
+            }
+            if(zeroCount == 0) break;
+        }
+
+        for(int i = 0; i < flipS.length(); i++){
+            char s = flipS.charAt(i);
+            if(s != '2'){
+                stack.push(s);
+            }
+        }
+        String flipS2 = "";
+        while(!stack.isEmpty()){
+            flipS2 += stack.pop();
+        }
+
+
+
+        for(int i = 0; i < flipS2.length(); i ++){
+            if(flipS2.charAt(i) == '1' || flipS2.charAt(i) == '0'){
+                System.out.print(flipS2.charAt(i));
+            }
+        }
+
+
     }
 }
