@@ -1,0 +1,3 @@
+-- 코드를 입력하세요
+SELECT O.ANIMAL_ID ,O.ANIMAL_TYPE, O.NAME from ANIMAL_INS as I, ANIMAL_OUTS as O
+where I.SEX_UPON_INTAKE LIKE "Intact%" and (O.SEX_UPON_OUTCOME LIKE "Spayed %" or O.SEX_UPON_OUTCOME LIKE "Neutered%") and O.ANIMAL_ID = I.ANIMAL_ID and O.NAME is not null
