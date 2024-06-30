@@ -18,29 +18,22 @@ public class Main {
         int i = 0;
         int j = 0;
         int result = 0;
-        int removeCount = K;
-        while(i < N){
-            if(j == N){
-                result = Math.max(result, j - i  - K + removeCount);
-                i++;
-                j = i;
-                removeCount = K;
-                continue;
-            }
+        int oddNum = 0;
+        while(j < N){
 
-            if(S[j] % 2 == 0){
+          if(oddNum < K){
+              if(S[j] % 2 == 1) oddNum++; // 홀수, 지울 수 있음
                 j++;
-            }
-            else if(S[j] % 2 == 1 && removeCount > 0){
-                removeCount--;
-                j++;
-            }
-            else if(S[j] % 2 == 1 && removeCount == 0){
-                result = Math.max(result, j - i  - K + removeCount);
-                i++;
-                j = i;
-                removeCount = K;
-            }
+                result = Math.max(result, j - i - oddNum);
+          }
+          else if(S[j] % 2 == 0){ // 짝수
+              j++;
+              result = Math.max(result, j - i - oddNum);
+          }
+          else{ // 홀수, 지울 수 없음
+              if(S[i] % 2 == 1) oddNum --; // 첫 숫자가 홀수면 이동하면서 숫자가 바뀌니까 하나제거
+              i++;
+          }
 
         }
         System.out.println(result);
